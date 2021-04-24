@@ -1,5 +1,11 @@
 package com.apipothi.portal.controller;
-
+/*
+ * Author    : API POTHI
+ * YouTube   : https://www.youtube.com/apipothi
+ * Web Site  : http://apipothi.com/
+ * Play List : MICROSERVICE-SPRINGBOOT
+ * JAVA      : 1.8
+*/
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,52 +52,16 @@ public class ComparePortalController {
 	@Autowired
 	ComparePortalService service;
 
-	
 	/*
-	 * @Value("${amazon.ribbon.listOfServers}") private List<String>
-	 * listOfamazoneServers;
-	 * 
-	 * @Value("${flipkart.ribbon.listOfServers}") private List<String>
-	 * listOfFlipkartServers;
-	 * 
-	 * 
-	 * @Value("${productmanufacturer.ribbon.listOfServers}") private List<String>
-	 * listOfproductmanufactureServers;
+	 * Get All the product from PRODUCT MANUFACTURER and save it in to AMAZON DB
 	 */
-	
-	/*
-	 * @GetMapping("/listOfAmazoneServers") public List<String>
-	 * getlistOfamazoneServers() {
-	 * System.out.println("List of Amazon server port - " + listOfamazoneServers);
-	 * return listOfamazoneServers; }
-	 * 
-	 * @GetMapping("/listOfFlipkartServers") public List<String>
-	 * getlistOfFlipkartServers() {
-	 * System.out.println("List of Flipkart server port - " +
-	 * listOfFlipkartServers); return listOfFlipkartServers; }
-	 * 
-	 * 
-	 * @GetMapping("/listOfProductServers") public List<String>
-	 * getlistOfproductmanufactureServers() {
-	 * System.out.println("List of productmanufacture server port - " +
-	 * listOfproductmanufactureServers); return listOfproductmanufactureServers; }
-	 */
-	
-	
-	
 	@GetMapping("/addAllProductFromManufacturer")
 	public ComparePortalResponse addAllProductFromManufacturer() {
 		String statusMsg = "";
 		ComparePortalResponse myresponse = new ComparePortalResponse();
-		Set<String> productID = new HashSet<String>();
 		ComparePortalResponse proxyresponse = productManufacturerProxy.getFromWarehouseService();
 		logger.info("Response form Manufacturer proxy {}" + proxyresponse);
 		List<ComparePortalTO> manufacturerProductDetails = proxyresponse.getProductDetails();
-
-		for (ComparePortalTO comparePortalTO : manufacturerProductDetails) {
-			productID.add(comparePortalTO.getWproductid());
-		}
-
 		try {
 			statusMsg = service.addProductFromManufacturer(manufacturerProductDetails);
 			myresponse.setMessage(statusMsg);
@@ -112,6 +82,9 @@ public class ComparePortalController {
 		return myresponse;
 	}
 
+	/*
+	 * Get the Best price comparing FLIPKART and AMAZON 
+	 */
 	@GetMapping("/getBestPrice")
 	public  List<ShopingResponse>  getManufacturerProductID() {
 
@@ -221,7 +194,7 @@ public class ComparePortalController {
 						shopingResponse.setMessage(str);
 						shopingResponse.setAmazonPort(amazonProxyResponse.getPort());
 						shopingResponse.setFlipkartPort(flipkartProxyResponse.getPort());
-						shopingResponse.setPort(port);//amazonProxyResponse
+						shopingResponse.setPort(port);
 						shopingResponse.setAppname(amazonProxyResponse.getAppname()+" - "+flipkartProxyResponse.getAppname());
 						shopingResponse.setStatuscode(400);
 						shopingResponselist.add(shopingResponse);

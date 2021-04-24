@@ -1,5 +1,11 @@
 package com.apipothi.portal.swagger.to;
-
+/*
+ * Author    : API POTHI
+ * YouTube   : https://www.youtube.com/apipothi
+ * Web Site  : http://apipothi.com/
+ * Play List : MICROSERVICE-SPRINGBOOT
+ * JAVA      : 1.8
+*/
 public class ComparePortalTO {
 
 	private int id;
